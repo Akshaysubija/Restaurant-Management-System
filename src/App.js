@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Register from './pages/Register';
 import Login from './pages/Login';
@@ -9,8 +10,8 @@ import PaymentsPage from './components/PaymentsPage';
 import ReservationPage from './components/ReservationPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ToastContainer } from 'react-toastify';
+import Chatbot from './components/Chatbot'; // 👈 Import Chatbot
 import 'react-toastify/dist/ReactToastify.css';
-
 
 function App() {
   return (
@@ -47,8 +48,15 @@ function App() {
           }
         />
       </Routes>
+      
+      <Chatbot /> 
     </Router>
   );
 }
 
-export default App;  
+export default App;
+
+
+
+
+
