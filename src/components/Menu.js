@@ -1,5 +1,8 @@
+
+// src/pages/Menu.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
 const Menu = () => {
@@ -7,6 +10,7 @@ const Menu = () => {
   const [filteredItems, setFilteredItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState('All');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMenu = async () => {
@@ -31,6 +35,35 @@ const Menu = () => {
     } else {
       const filtered = menuItems.filter(item => item.category === category);
       setFilteredItems(filtered);
+    }
+  };
+
+  const handleOrderNow = async (item) => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.post(
+        'http://localhost:5000/api/orders',
+        {
+          items: [
+            {
+              menuItem: item._id,
+              quantity: 1,
+              price: item.price,
+            },
+          ],
+          totalPrice: item.price,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      alert('Order placed successfully!');
+      navigate('/orders'); // Go to orders page to see your orders
+    } catch (error) {
+      console.error('Failed to place order:', error);
+      alert('Failed to place order.');
     }
   };
 
@@ -59,7 +92,9 @@ const Menu = () => {
               <p className="menu-category">{item.category}</p>
               <p className="menu-description">{item.description}</p>
               <p className="menu-price">₹{item.price}</p>
-              <button className="order-button">Order Now</button>
+              <button className="order-button" onClick={() => handleOrderNow(item)}>
+                Order Now
+              </button>
             </div>
           ))
         ) : (
@@ -71,3 +106,10 @@ const Menu = () => {
 };
 
 export default Menu;
+
+
+
+
+
+
+

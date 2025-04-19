@@ -12,6 +12,9 @@ const Navbar = () => {
     navigate('/login');
   };
 
+  const displayName = user?.name?.split(' ')[0] || 'User';
+  const userRole = user?.role || '';
+
   return (
     <nav className="navbar">
       <div className="navbar-logo" onClick={() => navigate('/')}>
@@ -22,13 +25,14 @@ const Navbar = () => {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/menu">Menu</Link></li>
         <li><Link to="/orders">Orders</Link></li>
-        <li><Link to="/reservations">Reservations</Link></li>
+        <li><Link to="/reserve">Reservations</Link></li> {/* ✅ Fixed Path */}
+        <li><Link to="/payments">Payments</Link></li>
       </ul>
 
       <div className="navbar-auth">
         {user ? (
           <>
-            <span>Hi, {user.name.split(' ')[0]}</span>
+            <span>Hi, {displayName} ({userRole})</span>
             <button onClick={handleLogout}>Logout</button>
           </>
         ) : (

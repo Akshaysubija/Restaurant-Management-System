@@ -1,85 +1,142 @@
+
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import '../App.css';
+
+
+// const OrdersPage = () => {
+//   const [orders, setOrders] = useState([]);
+
+//   useEffect(() => {
+//     const fetchOrders = async () => {
+//       try {
+//         const token = localStorage.getItem('token');
+//         const res = await axios.get('http://localhost:5000/api/orders/myorders', {
+//           headers: { Authorization: `Bearer ${token}` },
+//         });
+//         setOrders(res.data);
+//       } catch (err) {
+//         console.error('Error fetching orders:', err);
+//       }
+//     };
+
+//     fetchOrders();
+//   }, []);
+
+//   return (
+//     <div className="orders-page">
+//       <h2 className="orders-title">My Orders</h2>
+//       {orders.length === 0 ? (
+//         <p>No orders found.</p>
+//       ) : (
+//         <div>
+//           {orders.map((order) => (
+//             <div key={order._id} className="order-card">
+//               <div className="order-details">
+//                 <p><strong>Status:</strong> {order.status}</p>
+//                 <p><strong>Total Price:</strong> ₹{order.totalPrice || 'N/A'}</p>
+//                 <p><strong>Date:</strong> {new Date(order.createdAt).toLocaleString()}</p>
+//               </div>
+
+//               <div className="order-items">
+//                 <p className="order-items-title">Items:</p>
+//                 <ul className="order-items-list">
+//                   {order.items.map((item) => (
+//                     <li key={item._id} className="order-item">
+//                       {item.menuItem?.image && (
+//                         <img
+//                           src={item.menuItem.image}
+//                           alt={item.menuItem.name}
+//                         />
+//                       )}
+//                       <p className="order-item-name">{item.menuItem?.name || 'Unknown Item'}</p>
+//                       <p className="order-item-info">Qty: {item.quantity}</p>
+//                       <p className="order-item-info">₹{item.price}</p>
+//                     </li>
+//                   ))}
+//                 </ul>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default OrdersPage;
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
-import { toast } from 'react-toastify';
+import '../App.css';
 
 const OrdersPage = () => {
-  const { user } = useAuth(); // Get user & token from context
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get('/api/orders', {
-          headers: {
-            Authorization: `Bearer ${user.token}`
-          }
+        const token = localStorage.getItem('token');
+        const res = await axios.get('http://localhost:5000/api/orders/myorders', {
+          headers: { Authorization: `Bearer ${token}` },
         });
         setOrders(res.data);
       } catch (err) {
-        toast.error('Failed to fetch orders');
+        console.error('Error fetching orders:', err);
       }
     };
 
-    if (user?.token) fetchOrders();
-  }, [user]);
-
-  const handleStatusChange = async (orderId, newStatus) => {
-    try {
-      await axios.put(`/api/orders/${orderId}/status`, {
-        deliveryStatus: newStatus,
-      }, {
-        headers: {
-          Authorization: `Bearer ${user.token}`
-        }
-      });
-
-      setOrders(prev =>
-        prev.map(order =>
-          order._id === orderId ? { ...order, deliveryStatus: newStatus } : order
-        )
-      );
-
-      toast.success('Order status updated!');
-    } catch (err) {
-      toast.error('Failed to update status');
-    }
-  };
+    fetchOrders();
+  }, []);
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Your Orders</h2>
-
-      {orders.length === 0 ? (
-        <p>No orders found.</p>
-      ) : (
-        <div className="grid gap-4">
-          {orders.map(order => (
-            <div key={order._id} className="bg-white shadow-md p-4 rounded-xl border">
-              <p><strong>Order ID:</strong> {order._id}</p>
-              <p><strong>Items:</strong> {order.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</p>
-              <p><strong>Total:</strong> ₹{order.totalAmount}</p>
-              <p><strong>Status:</strong> {order.deliveryStatus}</p>
-
-              {user.role !== 'user' && (
-                <div className="mt-2">
-                  <label className="mr-2 font-semibold">Update Status:</label>
-                  <select
-                    value={order.deliveryStatus}
-                    onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                    className="border rounded px-2 py-1"
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Preparing">Preparing</option>
-                    <option value="Out for delivery">Out for delivery</option>
-                    <option value="Delivered">Delivered</option>
-                  </select>
+    <div className="orders-background">
+      <div className="orders-page">
+        <h2 className="orders-title">My Orders</h2>
+        {orders.length === 0 ? (
+          <p>No orders found.</p>
+        ) : (
+          <div>
+            {orders.map((order) => (
+              <div key={order._id} className="order-card">
+                <div className="order-details">
+                  <p><strong>Status:</strong> {order.status}</p>
+                  <p><strong>Total Price:</strong> ₹{order.totalPrice || 'N/A'}</p>
+                  <p><strong>Date:</strong> {new Date(order.createdAt).toLocaleString()}</p>
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+
+                <div className="order-items">
+                  <p className="order-items-title">Items:</p>
+                  <ul className="order-items-list">
+                    {order.items.map((item) => (
+                      <li key={item._id} className="order-item">
+                        {item.menuItem?.image && (
+                          <img
+                            src={item.menuItem.image}
+                            alt={item.menuItem.name}
+                          />
+                        )}
+                        <p className="order-item-name">{item.menuItem?.name || 'Unknown Item'}</p>
+                        <p className="order-item-info">Qty: {item.quantity}</p>
+                        <p className="order-item-info">₹{item.price}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
