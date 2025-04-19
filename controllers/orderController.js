@@ -1,7 +1,9 @@
 
-// controllers/orderController.js
+
 import Order from '../models/Order.js';
 import { generateInvoice } from '../utils/invoiceGenerator.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 export const placeOrder = async (req, res) => {
   try {
@@ -13,12 +15,14 @@ export const placeOrder = async (req, res) => {
 };
 
 export const getUserOrders = async (req, res) => {
-  const orders = await Order.find({ user: req.user.id }).populate('items.menuItem');
-  res.json(orders);
+  try {
+    const orders = await Order.find({ user: req.user.id }).populate('items.menuItem');
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch orders', error: error.message });
+  }
 };
 
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 export const downloadInvoice = async (req, res) => {
   try {
@@ -29,7 +33,6 @@ export const downloadInvoice = async (req, res) => {
 
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
-
     const invoicePath = path.join(__dirname, `../invoices/invoice-${orderId}.pdf`);
 
     await generateInvoice(order, invoicePath);
@@ -39,5 +42,3 @@ export const downloadInvoice = async (req, res) => {
     res.status(500).json({ message: 'Error generating invoice', error: err.message });
   }
 };
-
-

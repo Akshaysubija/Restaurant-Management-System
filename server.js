@@ -28,7 +28,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/menu', menuRoutes);
-app.use('/api/order', orderRoutes);
+app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/chatbot', chatbotRoutes);
