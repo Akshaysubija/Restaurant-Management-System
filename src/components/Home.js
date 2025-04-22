@@ -9,7 +9,10 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <h1>🍴 Thalassery Restaurant</h1>
+      <h1>🍴 Thalassery Restaurant <hr>
+      </hr>
+        തലശ്ശേരി നാടൻ റെസ്റ്റോറന്റ്
+      </h1>
 
       {user ? (
         <div className="user-info">

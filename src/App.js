@@ -10,7 +10,7 @@ import PaymentsPage from './components/PaymentsPage';
 import ReservationPage from './components/ReservationPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ToastContainer } from 'react-toastify';
-import Chatbot from './components/Chatbot'; // 👈 Import Chatbot
+import Chatbot from './components/Chatbot'; 
 import 'react-toastify/dist/ReactToastify.css';
 
 
