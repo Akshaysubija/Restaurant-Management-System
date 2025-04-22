@@ -13,6 +13,8 @@ import { ToastContainer } from 'react-toastify';
 import Chatbot from './components/Chatbot'; // 👈 Import Chatbot
 import 'react-toastify/dist/ReactToastify.css';
 
+
+
 function App() {
   return (
     <Router>
@@ -55,8 +57,5 @@ function App() {
 }
 
 export default App;
-
-
-
 
 

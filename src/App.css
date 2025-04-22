@@ -529,6 +529,19 @@ html, body, #root {
   text-align: center;
 }
 
+.delete-button {
+  background-color: #e3342f;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-left: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #cc1f1a;
+}
 
 
 
@@ -695,6 +708,9 @@ html, body, #root {
 /* Payment Styling */
 
 
+
+
+
 .full-background {
   background-image: url('https://images.unsplash.com/photo-1658282653150-67e2023a67e3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fHJlc3RhdXJhbnQlMjBwb3N8ZW58MHx8MHx8fDA%3D'); /* Adjust path if using src/assets */
   background-size: cover;
@@ -710,103 +726,93 @@ html, body, #root {
   padding-bottom: 40px;
 }
 
-.payment-page-container {
-  width: 90%;
-  max-width: 1100px;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
+/* App.css */
 
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f7fc;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f7fa;
   margin: 0;
   padding: 0;
 }
 
+.payment-container {
+  padding: 2rem;
+  background: linear-gradient(120deg, #e0f7fa, #f1f8e9);
+  min-height: 100vh;
+}
+
+/* Container box */
+.bg-white {
+  background-color: #fff;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.3s ease;
+  font-size: 1rem;
+}
+
+.input-field:focus {
+  border-color: #4caf50;
+  outline: none;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+}
+
 h2 {
-  font-size: 24px;
   color: #333;
 }
 
-/* Container for Payment Records */
-.payment-page-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-/* Table Styles */
+/* Table */
 table {
-  width: 100%;
   border-collapse: collapse;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin-top: 1rem;
 }
 
 th,
 td {
-  padding: 14px 18px;
   text-align: left;
-  border: 1px solid #ddd;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
 }
 
 th {
-  background-color: #f1f1f1;
+  background-color: #f5f5f5;
   color: #333;
 }
 
-td {
-  background-color: #fff;
+tr:nth-child(even) {
+  background-color: #fafafa;
 }
 
-td a {
-  color: #007bff;
-  text-decoration: none;
+tr:hover {
+  background-color: #f1f1f1;
 }
 
-td a:hover {
-  text-decoration: underline;
+/* Buttons */
+button {
+  cursor: pointer;
+  font-weight: 600;
 }
 
-/* Loader and Error Message */
-.loading {
-  font-size: 18px;
-  color: #888;
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.error {
-  color: #f44336;
-  font-size: 16px;
-  font-weight: bold;
+.toast-success {
+  background-color: #4caf50;
+  color: white;
 }
 
-/* No records found */
-.no-records {
-  font-size: 18px;
-  color: #444;
+.toast-error {
+  background-color: #f44336;
+  color: white;
 }
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .payment-page-container {
-    padding: 1rem;
-  }
-
-  table {
-    font-size: 14px;
-  }
-
-  th,
-  td {
-    padding: 10px;
-  }
-}
-
 
 
 
