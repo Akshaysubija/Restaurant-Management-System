@@ -27,6 +27,8 @@ const Navbar = () => {
         <li><Link to="/orders">Orders</Link></li>
         <li><Link to="/reserve">Reservations</Link></li> {/* ✅ Fixed Path */}
         <li><Link to="/payments">Payments</Link></li>
+        <li><Link to="/feedback">Feedback</Link></li>
+
       </ul>
 
       <div className="navbar-auth">

@@ -9,7 +9,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <h1>🍴 Thalassery Restaurant <hr>
+      <h1>🍴 Thalassery Nadan Restaurant <hr>
       </hr>
         തലശ്ശേരി നാടൻ റെസ്റ്റോറന്റ്
       </h1>
