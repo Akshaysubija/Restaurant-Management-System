@@ -13,3 +13,7 @@ router.get('/', protect, admin, getAllReservations);
 router.put('/:id/status', protect, admin, updateReservationStatus);
 
 export default router;
+
+
+
+

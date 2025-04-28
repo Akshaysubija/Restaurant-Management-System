@@ -1,15 +1,17 @@
 
 import express from 'express';
-import { makePayment, getAllPayments } from '../controllers/paymentController.js';
+import { createPayment, getUserPayments } from '../controllers/paymentController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// GET all payments
-router.get('/', protect, getAllPayments);
+// @route POST /api/payments
+// @desc  Create a payment
+router.post('/', protect, createPayment);
 
-// POST new payment
-router.post('/', protect, makePayment);
+// @route GET /api/payments
+// @desc  Get logged-in user's payment history
+router.get('/', protect, getUserPayments);
 
 export default router;
 

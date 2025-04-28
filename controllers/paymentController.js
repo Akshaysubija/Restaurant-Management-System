@@ -1,54 +1,85 @@
 
-
 import Payment from '../models/Payment.js';
-import User from '../models/User.js'; // Import User model for name lookup
+import User from '../models/User.js';
 
-// Create Payment
-export const makePayment = async (req, res) => {
-  const { amount, method, orderId } = req.body;
+/**
+ * @desc    Create a new payment
+ * @route   POST /api/payments
+ * @access  Private
+ */
+export const createPayment = async (req, res) => {
   try {
-    const newPayment = new Payment({
-      user: req.user._id,
+    const {
       amount,
       method,
-      order: orderId,
+      cardNumber,
+      cardHolderName,
+      expiryDate,
+      upiId,
+    } = req.body;
+
+    const userId = req.user._id;
+
+    // Basic validation
+    if (!amount || !method) {
+      return res.status(400).json({ message: 'Amount and method are required.' });
+    }
+
+    // Additional validation for cards
+    if ((method === 'Credit Card' || method === 'Debit Card') &&
+        (!cardNumber || !cardHolderName || !expiryDate)) {
+      return res.status(400).json({
+        message: 'Card number, holder name, and expiry date are required for card payments.'
+      });
+    }
+
+    // Additional validation for UPI
+    if (method === 'UPI' && !upiId) {
+      return res.status(400).json({ message: 'UPI ID is required for UPI payments.' });
+    }
+
+    const newPayment = new Payment({
+      user: userId,
+      amount,
+      method,
+      cardNumber,
+      cardHolderName,
+      expiryDate,
+      upiId,
+      paymentStatus: 'Paid',
     });
 
-    const savedPayment = await newPayment.save();
-    res.status(201).json(savedPayment);
+    await newPayment.save();
+
+    res.status(201).json({
+      message: 'Payment successful!',
+      payment: newPayment
+    });
+
   } catch (error) {
-    res.status(500).json({ message: 'Payment failed', error });
+    console.error('Error creating payment:', error);
+    res.status(500).json({ message: 'Server error while creating payment' });
   }
 };
 
-// Get all Payments (formatted for frontend)
-export const getAllPayments = async (req, res) => {
+/**
+ * @desc    Get all payments for the logged-in user
+ * @route   GET /api/payments
+ * @access  Private
+ */
+export const getUserPayments = async (req, res) => {
   try {
-    const payments = await Payment.find({ user: req.user._id }).sort({ createdAt: -1 });
+    const userId = req.user._id;
 
-    const formattedPayments = await Promise.all(
-      payments.map(async (payment) => {
-        const user = await User.findById(payment.user);
-        return {
-          _id: payment._id,
-          user: { name: user?.name || 'N/A' },
-          amount: payment.amount,
-          isPaid: payment.paymentStatus === 'Paid', // convert string to boolean
-          invoiceUrl: payment.invoiceUrl || null,
-          createdAt: payment.createdAt,
-        };
-      })
-    );
+    const payments = await Payment.find({ user: userId })
+      .populate('user', 'name email');
 
-    res.status(200).json(formattedPayments);
+    res.status(200).json(payments);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch payments', error });
+    console.error('Error fetching payments:', error);
+    res.status(500).json({ message: 'Server error while fetching payments' });
   }
 };
-
-
-
-
 
 
 

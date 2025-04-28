@@ -1,5 +1,3 @@
-
-
 import mongoose from 'mongoose';
 
 const paymentSchema = new mongoose.Schema({
@@ -11,7 +9,7 @@ const paymentSchema = new mongoose.Schema({
   order: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Order',
-    required: false, // optional for now
+    required: false,
   },
   amount: {
     type: Number,
@@ -19,7 +17,32 @@ const paymentSchema = new mongoose.Schema({
   },
   method: {
     type: String,
+    enum: ['Credit Card', 'Debit Card', 'UPI'],
     required: true,
+  },
+  cardNumber: {
+    type: String,
+    required: function () {
+      return this.method === 'Credit Card' || this.method === 'Debit Card';
+    },
+  },
+  cardHolderName: {
+    type: String,
+    required: function () {
+      return this.method === 'Credit Card' || this.method === 'Debit Card';
+    },
+  },
+  expiryDate: {
+    type: String,
+    required: function () {
+      return this.method === 'Credit Card' || this.method === 'Debit Card';
+    },
+  },
+  upiId: {
+    type: String,
+    required: function () {
+      return this.method === 'UPI';
+    },
   },
   paymentStatus: {
     type: String,
@@ -38,3 +61,7 @@ const paymentSchema = new mongoose.Schema({
 
 const Payment = mongoose.model('Payment', paymentSchema);
 export default Payment;
+
+
+
+
