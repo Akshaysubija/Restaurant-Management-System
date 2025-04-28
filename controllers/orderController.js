@@ -1,11 +1,11 @@
-
+// Order Code //
 import Order from '../models/Order.js';
-import { generateInvoice } from '../invoices/generateInvoice.js'; // New import
+import { generateInvoice } from '../invoices/generateInvoice.js'; 
 
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Place a new order
+// Place a new order //
 export const placeOrder = async (req, res) => {
   try {
     const order = await Order.create({ ...req.body, user: req.user.id });
@@ -15,7 +15,7 @@ export const placeOrder = async (req, res) => {
   }
 };
 
-// Get all orders for the logged-in user
+// Get all orders for the logged-in user //
 export const getUserOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user.id }).populate('items.menuItem');
@@ -26,7 +26,7 @@ export const getUserOrders = async (req, res) => {
 };
 
 
-// ✅ Get single order by ID
+//  Get single order by ID //
 export const getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).populate('items.menuItem');
@@ -41,7 +41,7 @@ export const getOrderById = async (req, res) => {
   }
 };
 
-// Download invoice for a specific order
+// Download invoice for a specific order //
 export const downloadInvoice = async (req, res) => {
   try {
     const orderId = req.params.id;
@@ -60,7 +60,7 @@ export const downloadInvoice = async (req, res) => {
   }
 };
 
-// Update quantity of an item in an existing order
+// Update quantity of an item in an existing order //
 export const updateOrderItem = async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -91,8 +91,8 @@ export const updateOrderItem = async (req, res) => {
   }
 };
 
-// ✅ Delete an item from the order
-// Delete an item from an order
+
+// Delete an item from an order //
 export const deleteOrderItem = async (req, res) => {
   try {
     const { orderId, menuItemId } = req.params;
@@ -102,13 +102,13 @@ export const deleteOrderItem = async (req, res) => {
 
     order.items = order.items.filter(item => item.menuItem.toString() !== menuItemId);
 
-    // Check if any items remain
+    // Check if any items remain //
     if (order.items.length === 0) {
       await Order.findByIdAndDelete(orderId); // Delete the entire order
       return res.status(200).json({ message: 'Item deleted and order removed (empty)' });
     }
 
-    // Recalculate total price
+    // Recalculate total price //
     order.totalPrice = order.items.reduce((acc, item) => acc + item.price, 0);
 
     await order.save();

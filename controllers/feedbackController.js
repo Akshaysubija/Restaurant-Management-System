@@ -1,5 +1,5 @@
 
-// controllers/feedbackController.js
+// Feedback Code //
 import Feedback from '../models/Feedback.js';
 
 export const submitFeedback = async (req, res) => {

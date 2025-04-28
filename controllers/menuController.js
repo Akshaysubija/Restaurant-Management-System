@@ -1,7 +1,4 @@
-
-
-// controllers/menuController.js
-
+//  menu Code //
 import Menu from '../models/Menu.js';
 
 // menu item //

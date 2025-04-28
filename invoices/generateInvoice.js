@@ -1,11 +1,12 @@
+// Generate Invoice Code //
 
 import PDFDocument from 'pdfkit';
 import fs from 'fs';
-import Order from '../models/Order.js'; // Make sure path is correct
+import Order from '../models/Order.js'; 
 
 export const generateInvoice = async (orderId, filePath) => {
   try {
-    // Fetch and populate the order with menu item details
+    // Fetch and populate the order with menu item details //
     const order = await Order.findById(orderId).populate('items.menuItem');
 
     if (!order) {
@@ -15,17 +16,17 @@ export const generateInvoice = async (orderId, filePath) => {
     const doc = new PDFDocument();
     doc.pipe(fs.createWriteStream(filePath));
 
-    // Header
+    // Header //
     doc.fontSize(22).text('Restaurant Invoice', { align: 'center' });
     doc.moveDown();
 
-    // Order Details
+    // Order Details //
     doc.fontSize(12).text(`Order ID: ${order._id}`);
     doc.text(`User ID: ${order.user}`);
     doc.text(`Date: ${new Date(order.createdAt).toLocaleString()}`);
     doc.moveDown();
 
-    // Ordered Items
+    // Ordered Items //
     doc.fontSize(14).text('Ordered Items:');
     doc.moveDown(0.5);
 
@@ -42,11 +43,11 @@ export const generateInvoice = async (orderId, filePath) => {
       });
     }
 
-    // Total Amount
+    // Total Amount //
     doc.moveDown();
     doc.fontSize(16).text(`Total Amount: ₹${order.totalPrice}`, { align: 'right' });
 
-    // Footer
+    // Footer //
     doc.moveDown(2);
     doc.fontSize(10).text('Thank you for your order!', { align: 'center' });
 

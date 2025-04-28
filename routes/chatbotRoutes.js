@@ -1,4 +1,4 @@
-// routes/chatbotRoutes.js
+// routes/chatbotRoutes.js //
 import express from 'express';
 import { handleChat } from '../controllers/chatbotController.js';
 

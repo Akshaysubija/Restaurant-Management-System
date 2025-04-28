@@ -1,3 +1,5 @@
+// Reservation Code //
+
 import Reservation from '../models/Reservation.js';
 
 const createReservation = async (req, res) => {

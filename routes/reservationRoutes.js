@@ -4,11 +4,11 @@ import { protect, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// User routes
+// User routes //
 router.post('/', protect, createReservation);
 router.get('/my', protect, getMyReservations);
 
-// Admin routes
+// Admin routes //
 router.get('/', protect, admin, getAllReservations);
 router.put('/:id/status', protect, admin, updateReservationStatus);
 

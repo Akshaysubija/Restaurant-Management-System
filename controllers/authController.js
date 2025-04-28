@@ -3,20 +3,20 @@ import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-// REGISTER
+// Register Code //
 const register = async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
-    // Check if user already exists
+    // Check if user already exists //
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists with this email' });
     }
 
-    // Create new user
+    // Create new user //
     const user = await User.create({ name, email, password, role });
 
-    // Generate token
+    // Generate token //
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: '1d',
     });
@@ -35,24 +35,24 @@ const register = async (req, res) => {
   }
 };
 
-// LOGIN
+// Login //
 const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Find user by email
+    // Find user by email //
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Compare passwords
+    // Compare passwords //
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Generate token
+    // Generate token //
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: '1d',
     });
@@ -71,7 +71,7 @@ const login = async (req, res) => {
   }
 };
 
-// GET USER PROFILE
+// GET USER PROFILE //
 const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id); // req.user comes from authMiddleware

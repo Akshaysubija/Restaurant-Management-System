@@ -1,12 +1,8 @@
+// Payment Code //
 
 import Payment from '../models/Payment.js';
 import User from '../models/User.js';
 
-/**
- * @desc    Create a new payment
- * @route   POST /api/payments
- * @access  Private
- */
 export const createPayment = async (req, res) => {
   try {
     const {
@@ -20,12 +16,12 @@ export const createPayment = async (req, res) => {
 
     const userId = req.user._id;
 
-    // Basic validation
+    // Basic validation //
     if (!amount || !method) {
       return res.status(400).json({ message: 'Amount and method are required.' });
     }
 
-    // Additional validation for cards
+    // Additional validation for cards //
     if ((method === 'Credit Card' || method === 'Debit Card') &&
         (!cardNumber || !cardHolderName || !expiryDate)) {
       return res.status(400).json({
@@ -33,7 +29,7 @@ export const createPayment = async (req, res) => {
       });
     }
 
-    // Additional validation for UPI
+    // Additional validation for UPI //
     if (method === 'UPI' && !upiId) {
       return res.status(400).json({ message: 'UPI ID is required for UPI payments.' });
     }
@@ -62,11 +58,6 @@ export const createPayment = async (req, res) => {
   }
 };
 
-/**
- * @desc    Get all payments for the logged-in user
- * @route   GET /api/payments
- * @access  Private
- */
 export const getUserPayments = async (req, res) => {
   try {
     const userId = req.user._id;

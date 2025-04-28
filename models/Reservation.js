@@ -1,4 +1,4 @@
-
+// Reservation Model Code //
 import mongoose from 'mongoose';
 
 const reservationSchema = new mongoose.Schema({
@@ -8,7 +8,7 @@ const reservationSchema = new mongoose.Schema({
   date: { type: Date, required: true },
   time: { type: String, required: true },
   partySize: { type: Number, required: true },
-  status: { type: String, default: 'Pending' } // Pending, Confirmed, Cancelled
+  status: { type: String, default: 'Pending' } 
 }, { timestamps: true });
 
 const Reservation = mongoose.model('Reservation', reservationSchema);

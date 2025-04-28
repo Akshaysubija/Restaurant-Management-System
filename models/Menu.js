@@ -1,4 +1,4 @@
-// models/Menu.js
+// models/Menu.js //
 import mongoose from 'mongoose';
 
 const menuSchema = new mongoose.Schema({

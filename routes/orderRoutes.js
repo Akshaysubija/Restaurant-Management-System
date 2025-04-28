@@ -1,3 +1,4 @@
+// order Routes //
 
 import express from 'express';
 import {
@@ -5,26 +6,26 @@ import {
   getUserOrders,
   downloadInvoice,
   updateOrderItem,
-  deleteOrderItem, // ✅ added
+  deleteOrderItem, 
 } from '../controllers/orderController.js';
 
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Place a new order
+// Place a new order //
 router.post('/', protect, placeOrder);
 
-// Get all orders for logged-in user
+// Get all orders for logged-in user //
 router.get('/myorders', protect, getUserOrders);
 
 // Download invoice
 router.get('/invoice/:id', protect, downloadInvoice);
 
-// Update item quantity in an order
+// Update item quantity in an order //
 router.put('/:orderId/update-item', protect, updateOrderItem);
 
-// ✅ Delete item from an order
+// Delete item from an order //
 router.delete('/:orderId/delete-item/:menuItemId', protect, deleteOrderItem);
 
 export default router;

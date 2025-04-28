@@ -5,12 +5,11 @@ import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// @route POST /api/payments
-// @desc  Create a payment
+
+// Create a payment //
 router.post('/', protect, createPayment);
 
-// @route GET /api/payments
-// @desc  Get logged-in user's payment history
+// GET /api/payments //
 router.get('/', protect, getUserPayments);
 
 export default router;
